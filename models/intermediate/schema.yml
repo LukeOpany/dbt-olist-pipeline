@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: int_orders_enriched
+    description: "Orders joined with customers, items and payments"
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_unique_id
+        tests:
+          - not_null
+      - name: total_payment_value
+        tests:
+          - not_null
+      - name: total_items
+        tests:
+          - not_null
+
+  - name: int_customer_lifetime
+    description: "Customer order history aggregated per customer"
+    columns:
+      - name: customer_unique_id
+        tests:
+          - unique
+          - not_null
+      - name: lifetime_value
+        tests:
+          - not_null
+      - name: total_orders
+        tests:
+          - not_null
+
+  - name: int_delivery_performance
+    description: "Delivery time calculations for completed orders"
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: days_to_deliver
+        tests:
+          - not_null
+      - name: days_early_or_late
+        tests:
+          - not_null
