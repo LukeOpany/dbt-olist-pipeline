@@ -49,8 +49,8 @@ final as (
         i.total_items,
         i.total_items_price,
         i.total_freight_value,
-        p.total_payment_value,
-        p.total_payment_installments
+        coalesce(p.total_payment_value, 0) as total_payment_value,
+        coalesce(p.total_payment_installments, 0) as total_payment_installments
     from orders o
     left join customers c
         on o.customer_id = c.customer_id
