@@ -47,3 +47,16 @@ models:
       - name: total_revenue
         tests:
           - not_null
+  - name: dim_products
+    description: "One row per product with sales metrics and category translations"
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+      - name: category_name_english
+        tests:
+          - not_null
+      - name: total_revenue
+        tests:
+          - not_null
