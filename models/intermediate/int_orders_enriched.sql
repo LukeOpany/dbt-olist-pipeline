@@ -46,9 +46,9 @@ final as (
         o.delivered_to_carrier_at,
         o.delivered_to_customer_at,
         o.estimated_delivery_at,
-        i.total_items,
-        i.total_items_price,
-        i.total_freight_value,
+        coalesce(i.total_items, 0)             as total_items,
+        coalesce(i.total_items_price, 0)       as total_items_price,
+        coalesce(i.total_freight_value, 0)     as total_freight_value,
         coalesce(p.total_payment_value, 0) as total_payment_value,
         coalesce(p.total_payment_installments, 0) as total_payment_installments
     from orders o
