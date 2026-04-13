@@ -1,5 +1,10 @@
 with customers as (
-    select * from {{ ref('stg_customers') }}
+    select distinct on (customer_unique_id)
+        customer_unique_id,
+        city,
+        state
+    from {{ ref('stg_customers') }}
+    order by customer_unique_id
 ),
 
 lifetime as (
