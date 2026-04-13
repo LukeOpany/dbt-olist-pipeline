@@ -60,3 +60,20 @@ models:
       - name: total_revenue
         tests:
           - not_null
+  - name: fct_reviews
+    description: "One row per review joined with order context"
+    columns:
+      - name: review_id
+        tests:
+          - not_null
+      - name: order_id
+        tests:
+          - not_null
+      - name: review_score
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]
+      - name: customer_unique_id
+        tests:
+          - not_null          
