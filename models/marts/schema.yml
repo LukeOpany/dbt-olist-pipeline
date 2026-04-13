@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: "One row per order with all key metrics"
+    columns:
+      - name: order_id
+        description: "Unique order identifier"
+        tests:
+          - unique
+          - not_null
+      - name: customer_unique_id
+        tests:
+          - not_null
+      - name: order_status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['delivered', 'shipped', 'canceled', 'unavailable', 'invoiced', 'processing', 'created', 'approved']
+      - name: total_payment_value
+        tests:
+          - not_null
+
+  - name: dim_customers
+    description: "One row per customer with lifetime value metrics"
+    columns:
+      - name: customer_unique_id
+        description: "Unique customer identifier"
+        tests:
+          - unique
+          - not_null
+      - name: customer_city
+        tests:
+          - not_null
+      - name: lifetime_value
+        tests:
+          - not_null
+
+  - name: dim_sellers
+    description: "One row per seller with revenue metrics"
+    columns:
+      - name: seller_id
+        description: "Unique seller identifier"
+        tests:
+          - unique
+          - not_null
+      - name: total_revenue
+        tests:
+          - not_null
