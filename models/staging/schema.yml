@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: "Cleaned orders from raw source"
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: order_status
+        tests:
+          - not_null
+
+  - name: stg_customers
+    description: "Cleaned customers from raw source"
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_unique_id
+        tests:
+          - not_null
+
+  - name: stg_order_items
+    description: "Cleaned order items from raw source"
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+      - name: seller_id
+        tests:
+          - not_null
+
+  - name: stg_products
+    description: "Cleaned products from raw source"
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_sellers
+    description: "Cleaned sellers from raw source"
+    columns:
+      - name: seller_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_order_payments
+    description: "Cleaned order payments from raw source"
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: payment_value
+        tests:
+          - not_null
+
+  - name: stg_order_reviews
+    description: "Cleaned order reviews from raw source"
+    columns:
+      - name: review_id
+        tests:
+          - not_null
+      - name: order_id
+        tests:
+          - not_null
+      - name: review_score
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]
+
+  - name: stg_sellers
+    description: "Cleaned sellers from raw source"
+    columns:
+      - name: seller_id
+        tests:
+          - unique
+          - not_null
