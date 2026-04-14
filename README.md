@@ -20,10 +20,13 @@ real business questions about orders, customers, sellers and products.
 - **Version Control**: Git / GitHub
 
 ## Project Structure
+```
 models/
 ├── staging/          # 9 models — one per source table, renamed and cast
 ├── intermediate/     # 3 models — joins, aggregations, business logic
 └── marts/            # 5 models — business-facing fact and dimension tables
+
+```
 ## Pipeline Layers
 
 ### Staging
