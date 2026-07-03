@@ -30,13 +30,13 @@ final as (
         s.seller_id,
         s.city                        as seller_city,
         s.state                       as seller_state,
-        m.total_orders,
-        m.total_revenue,
+        coalesce(m.total_orders, 0) as total_orders,
+        coalesce(m.total_revenue, 0) as total_revenue,
         m.avg_item_price,
-        m.total_freight_value,
-        m.total_items_sold
+        coalesce(m.total_freight_value, 0) as total_freight_value,
+        coalesce(m.total_items_sold, 0) as total_items_sold
     from sellers s
-    inner join seller_metrics m
+    left join seller_metrics m
         on s.seller_id = m.seller_id
 )
 

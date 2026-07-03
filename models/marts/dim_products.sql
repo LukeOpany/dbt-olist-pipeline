@@ -32,11 +32,11 @@ final as (
         p.height_cm,
         p.width_cm,
         p.photos_qty,
-        m.total_orders,
-        m.total_revenue,
+        coalesce(m.total_orders, 0) as total_orders,
+        coalesce(m.total_revenue, 0) as total_revenue,
         m.avg_price,
-        m.total_freight_value,
-        m.total_units_sold
+        coalesce(m.total_freight_value, 0) as total_freight_value,
+        coalesce(m.total_units_sold, 0) as total_units_sold
     from products p
     left join translations t
         on p.category_name = t.category_name

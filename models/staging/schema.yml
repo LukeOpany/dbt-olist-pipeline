@@ -47,6 +47,17 @@ models:
           - unique
           - not_null
 
+  - name: stg_product_category_translations
+    description: "Cleaned product category translations from Portuguese to English"
+    columns:
+      - name: category_name
+        tests:
+          - unique
+          - not_null
+      - name: category_name_english
+        tests:
+          - not_null
+
   - name: stg_sellers
     description: "Cleaned sellers from raw source"
     columns:
@@ -78,12 +89,18 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [1, 2, 3, 4, 5]
+              arguments:
+                values: [1, 2, 3, 4, 5]
 
-  - name: stg_sellers
-    description: "Cleaned sellers from raw source"
+  - name: stg_geolocation
+    description: "Cleaned geolocation records by zip code prefix"
     columns:
-      - name: seller_id
+      - name: zip_code
         tests:
-          - unique
+          - not_null
+      - name: latitude
+        tests:
+          - not_null
+      - name: longitude
+        tests:
           - not_null
