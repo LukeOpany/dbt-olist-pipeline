@@ -2,9 +2,15 @@
 
 # Olist Analytics dbt Pipeline
 
+![Application preview](docs/olist-dashboard.jpg)
+
 An end-to-end analytics engineering project that transforms raw Brazilian e-commerce data from [Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) into clean, tested, business-ready dbt models.
 
 This project demonstrates a modern data engineering workflow: raw source ingestion, staging cleanup, intermediate business logic, mart modeling, and data quality validation.
+
+## Delivery Analysis Results
+
+The new [interactive dashboard](delivery/app.py) and [findings memo](reports/delivery-findings.md) analyze 96,470 eligible delivered orders: 6,534 were late (6.77%). Mean order-level review scores were 2.27 for late orders and 4.29 for on-time orders. These are descriptive associations in historical data, not causal effects. See the dashboard setup at the end of this README.
 
 ## Project Summary
 
@@ -289,3 +295,19 @@ If this project were moved from local development toward production, the next im
 - **Data freshness checks:** add source freshness tests for raw ingestion tables
 - **Documentation hosting:** publish dbt docs so lineage and model definitions are easy to review
 - **Dashboard layer:** connect marts to a BI tool for revenue, delivery, seller, product, and customer reporting
+
+## Delivery Decision Dashboard
+
+The [Streamlit application](delivery/app.py) adds destination comparisons, monthly late rates, review comparisons, and a seller investigation queue. It runs directly on four original CSVs, so reviewers can explore the analysis without provisioning PostgreSQL. The existing dbt transformations remain the warehouse modeling path; the dashboard uses a separately tested order-grain analysis module.
+
+```bash
+pip install -r requirements-dashboard.txt
+# Download orders, customers, order_items, and order_reviews CSVs from the source below.
+OLIST_DATA_DIR=/path/to/csvs streamlit run delivery/app.py
+python -m delivery.build_report --data-dir /path/to/csvs --source-url https://github.com/olist/work-at-olist-data/tree/master/datasets
+python -m pytest tests/dashboard -q
+```
+
+Source: [Olist's public dataset repository](https://github.com/olist/work-at-olist-data/tree/master/datasets). The four filenames are `olist_orders_dataset.csv`, `olist_customers_dataset.csv`, `olist_order_items_dataset.csv`, and `olist_order_reviews_dataset.csv`. Raw data is not committed here.
+
+Read the [generated findings](reports/delivery-findings.md) and [source checksums](reports/provenance.json). Late delivery is measured by calendar date. Multiple reviews are averaged within each order; multiple items from the same seller do not multiply order counts. Orders with multiple sellers appear in each associated seller's queue count, so seller totals overlap. The review comparison describes an association, not causation.
